@@ -38,6 +38,7 @@ UTS(“UNIX Time-sharing System”) 命名空间允许每个容器拥有独立�
 
 ### Time Namespace
 
+每个名称空间下的容器可以有不同的时间
 
 # 使用apt/yum/安装指定版本的docker
 
