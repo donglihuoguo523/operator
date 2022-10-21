@@ -12,8 +12,6 @@
 | Syslog Namespace | 提供syslog隔离能力 |  |  |
 | Control group(cgroup) Namespace | 提供进程所属的控制组到身份隔离 |  | Linux 4.6 |
 
-# 使用apt/yum/二进制安装指定版本的docker
-
 ### MNT Namespace
 
 类似 chroot，将一个进程放到一个特定的目录执行。mnt 命名空间允许不同命名空间的进程看到的文件结构不同，这样每个命名空间 中的进程所看到的文件目录就被隔离开了。同 chroot 不同，每个命名空间中的容器在 /proc/mounts 的信息只包含所在命名空间的 mount point。
@@ -41,14 +39,44 @@ UTS(“UNIX Time-sharing System”) 命名空间允许每个容器拥有独立�
 ### Time Namespace
 
 
-
-# 使用apt/yum/二进制安装指定版本的docker
+# 使用apt/yum/安装指定版本的docker
 
 ### rpm包下载地址:
 
 - 官网下载地址：https://download.docker.com/linux/centos/7/x86_64/stable/Packages/
 
 - 阿里镜像下载地址：https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/
+
+### CentOS 系统离线使用rpm包部署docker
+
+```shell
+1、首先需要在联网机器上下载好docker需要到各种依赖包，前提是该机器之前没有安装过docker，否则可能会出现包下载不全，在不联网到机器无法顺利部署
+mkdir $HOME/docker-packages
+# 查看镜像仓库有哪些docker版本可通过命令查看：yum list docker-ce.x86_64 --showduplicates | sort -r
+yum install --downloaddir=$HOME/docker-packages/ --downloadonly docker-ce-17.03.1.ce-1.el7.centos
+2、打包下载好的镜像目录，传到不联网的机器上
+cd $HOME  && tar -czvf docker-packages.tar.gz docker-packages
+scp docker-packages.tar.gz user@IP:/$HOME/
+3、登录不联网机器部署
+cd $HOME && tar -zxvf docker-packages.tar.gz
+cd docker-packages && yum localinstall *.rpm 
+```
+
+### Ubuntu系统离线使用deb包部署docker 
+
+```shell
+1、首先需要在联网机器上下载好docker需要到各种依赖包，前提是该机器之前没有安装过docker，否则可能会出现包下载不全，在不联网到机器无法顺利部署
+# 查看镜像仓库有哪些docker版本可通过命令查看：apt-cache madison docker-ce
+# Ubuntu下载好的dpkg包默认存放在/var/cache/apt/archives/ 目录下，所以需要提前清空该目录
+rm -rf /var/cache/apt/archives/
+apt-get install -d docker-ce=5:20.10.17~3-0~ubuntu-jammy
+2、打包下载好的软件目录，传到不联网的机器上
+cd /var/cache/apt/  && tar -czvf docker-packages.tar.gz archives
+scp docker-packages.tar.gz user@IP:/$HOME/
+3、登录不联网机器部署
+cd $HOME && tar -zxvf docker-packages.tar.gz
+cd archives && dpkg -i *.deb
+```
 
 ### 二进制安装包：
 
