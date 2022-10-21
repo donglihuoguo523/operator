@@ -1,6 +1,16 @@
 # Linux Namespace
 
-![image-20221016231013667](https://github.com/donglihuoguo523/operator/blob/main/assets/image-20221016231013667.png)
+| 隔离类型 | 功能 | 系统调用参数 | 内核版本 |
+| -------- | ---- | ------------ | -------- |
+| MNT Namespace(mount) | 提供磁盘挂载点和文件系统的隔离能力 | CLONE_NEWNS | Linux 2.4.19 |
+| IPC Namespace(Inter-Process Communication) | 提供进程间通信的隔离能力 | CLONE_NEWIPC | Linux 2.6.19 |
+| UTS Namespace(UNIX Timesharing System) | 提供主机名隔离能力 | CLONE_NEWUTS | Linux 2.6.19 |
+| PID Namespace(Process Identification) | 提供进程隔离能力 | CLONE_NEWPID | Linux 2.6.24 |
+| Net Namespace(network) | 提供网络隔离能力 | CLONE_NEWNET | Linux 2.6.29 |
+| User Namespace(user) | 提供用户隔离能力 | CLONE_NEWUSER | Linux 3.8 |
+| Time Namespace | 提供时间隔离能力 | CLONE_NEWTIME | Linux 5.6 |
+| Syslog Namespace | 提供syslog隔离能力 |  |  |
+| Control group(cgroup) Namespace | 提供进程所属的控制组到身份隔离 |  | Linux 4.6 |
 
 # 使用apt/yum/二进制安装指定版本的docker
 
