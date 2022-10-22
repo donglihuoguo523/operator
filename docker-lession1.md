@@ -14,45 +14,31 @@
 
 ### MNT Namespace
 
-```
 类似 chroot，将一个进程放到一个特定的目录执行。mnt 命名空间允许不同命名空间的进程看到的文件结构不同，这样每个命名空间 中的进程所看到的文件目录就被隔离开了。同 chroot 不同，每个命名空间中的容器在 /proc/mounts 的信息只包含所在命名空间的 mount point。
-```
 
 ### IPC Namespace
 
-```
 容器中进程交互还是采用了 Linux 常见的进程间交互方法(interprocess communication – IPC), 包括信号量、消息队列和共享内存等。然而同 VM 不同的是，容器的进程间交互实际上还是 host 上具有相同 pid 命名空间中的进程间交互，因此需要在 IPC 资源申请时加入命名空间信息，每个 IPC 资源有一个唯一的 32 位 id。
-```
 
 ### UTS Namespace
 
-```
 UTS(“UNIX Time-sharing System”) 命名空间允许每个容器拥有独立的 hostname 和 domain name, 使其在网络上可以被视作一个独立的节点而非 主机上的一个进程。
-```
 
 ### PID Namespace
 
-```
 不同用户的进程就是通过 pid 命名空间隔离开的，且不同命名空间中可以有相同 pid。在同一个Namespace中只能看到当前命名空间的进程。所有的 LXC 进程在 Docker 中的父进程为Docker进程，每个 LXC 进程具有不同的命名空间。同时由于允许嵌套，因此可以很方便的实现嵌套的 Docker 容器。
-```
 
 ### Net Namespace
 
-```
 有了 pid 命名空间, 每个命名空间中的 pid 能够相互隔离，但是网络端口还是共享 host 的端口。网络隔离是通过 net 命名空间实现的， 每个 net 命名空间有独立的 网络设备, IP 地址, 路由表, /proc/net 目录。这样每个容器的网络就能隔离开来。Docker 默认采用 veth 的方式，将容器中的虚拟网卡同 host 上的一 个Docker 网桥 docker0 连接在一起。
-```
 
 ### User Namespace
 
-```
 每个容器可以有不同的用户和组 id, 也就是说可以在容器内用容器内部的用户执行程序而非主机上的用户。
-```
 
 ### Time Namespace
 
-```
 每个容器可以有不同的时间，而不是所有容器时间统一为宿主机的时间
-```
 
 # 二、使用apt/yum/二进制安装指定版本的docker
 
